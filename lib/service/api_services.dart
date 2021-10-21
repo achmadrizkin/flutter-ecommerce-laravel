@@ -31,13 +31,21 @@ class ApiServices {
 
   Future updateProduct(String name, String description, String imageURL,
       String price, int id) async {
+    final response = await http.put(
+        Uri.parse('http://10.0.2.2:8001/api/products/' + id.toString()),
+        body: {
+          "name": name,
+          "description": description,
+          "price": price,
+          "image_url": imageURL,
+        });
+
+    return jsonDecode(response.body);
+  }
+
+  Future deleteProduct(int id) async {
     final response = await http
-        .put(Uri.parse('http://10.0.2.2:8001/api/products/' + id.toString()), body: {
-      "name": name,
-      "description": description,
-      "price": price,
-      "image_url": imageURL,
-    });
+        .delete(Uri.parse('http://10.0.2.2:8001/api/products/' + id.toString()));
 
     return jsonDecode(response.body);
   }
