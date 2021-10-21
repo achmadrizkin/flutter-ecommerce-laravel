@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/model/products_model.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/add_product.dart';
+import 'package:flutter_ecommerce_laravel/pages/home/widget/edit_product.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/product_details.dart';
 import 'package:flutter_ecommerce_laravel/service/api_services.dart';
 
@@ -62,7 +63,15 @@ class _HomeState extends State<Home> {
                           children: [
                             IconButton(
                               icon: Icon(Icons.edit),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EditProduct(
+                                            data: data,
+                                          )),
+                                );
+                              },
                             ),
                             IconButton(
                               icon: Icon(Icons.delete),
