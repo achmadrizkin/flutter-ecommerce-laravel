@@ -92,13 +92,21 @@ class _EditProductState extends State<EditProduct> {
                       if (formKey.currentState!.validate()) {
                         ApiServices()
                             .updateProduct(
-                              nameController.text,
-                              descriptionController.text,
-                              imageUrlController.text,
-                              priceController.text,
-                              widget.data.id,
-                            )
-                            .then((value) => Navigator.pop(context));
+                          nameController.text,
+                          descriptionController.text,
+                          imageUrlController.text,
+                          priceController.text,
+                          widget.data.id,
+                        )
+                            .then((value) {
+                          Navigator.pop(context);
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Products has already changed"),
+                            ),
+                          );
+                        });
                       }
                     },
                     child: Text("Save"))
