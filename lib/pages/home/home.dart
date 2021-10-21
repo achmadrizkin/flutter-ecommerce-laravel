@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/model/products_model.dart';
+import 'package:flutter_ecommerce_laravel/pages/home/widget/add_product.dart';
+import 'package:flutter_ecommerce_laravel/pages/home/widget/product_details.dart';
 import 'package:flutter_ecommerce_laravel/service/api_services.dart';
 
 class Home extends StatefulWidget {
@@ -11,12 +13,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late Future<Barang> datum;
-  bool? _loading;
 
   @override
   void initState() {
     super.initState();
-    _loading = true;
     datum = ApiServices().getData();
   }
 
@@ -24,26 +24,62 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: _loading! ? Text("Loading") : Text("NOT LOADING"),
+        title: Text("E-Commerce Shop"),
       ),
-      body: FutureBuilder<Barang>(
-        future: ApiServices().getData(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-                itemCount: snapshot.data!.data.length,
-                itemBuilder: (context, index) {
-                  var data = snapshot.data!.data[index];
-
-                  return ListTile(
-                    title: Text(data.name),
-                    subtitle: Text(data.price),
-                  );
-                });
-          } else {
-            return SizedBox(width: 0,);
-          }
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddProduct()),
+          );
         },
+        child: Icon(Icons.add),
+      ),
+      body: SafeArea(
+        child: FutureBuilder<Barang>(
+          future: ApiServices().getData(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                  itemCount: snapshot.data!.data.length,
+                  itemBuilder: (context, index) {
+                    var data = snapshot.data!.data[index];
+
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProductDetails()),
+                        );
+                      },
+                      child: ListTile(
+                        leading: Image.network(data.imageUrl),
+                        title: Text(data.name),
+                        subtitle: Text(data.price),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.edit),
+                              onPressed: () {},
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () {},
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  });
+            } else {
+              return SizedBox(
+                width: 0,
+              );
+            }
+          },
+        ),
       ),
     );
   }
