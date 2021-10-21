@@ -75,7 +75,9 @@ class _HomeState extends State<Home> {
                             ),
                             IconButton(
                               icon: Icon(Icons.delete),
-                              onPressed: () {},
+                              onPressed: () {
+                                ApiServices().deleteProduct(data.id);
+                              },
                             ),
                           ],
                         ),
