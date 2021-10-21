@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_laravel/service/api_services.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);
@@ -8,6 +9,8 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
+  final formKey = GlobalKey<FormState>();
+
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController priceController = TextEditingController();
@@ -35,6 +38,7 @@ class _AddProductState extends State<AddProduct> {
       ),
       body: SafeArea(
         child: Form(
+          key: formKey,
           child: Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 10),
             child: Column(
@@ -42,19 +46,53 @@ class _AddProductState extends State<AddProduct> {
                 TextFormField(
                   decoration: InputDecoration(labelText: "Name"),
                   controller: nameController,
+                  validator: (value) {
+                    if (value == null || value.length < 3) {
+                      return "Please input product name";
+                    }
+                  },
                 ),
                 TextFormField(
                   decoration: InputDecoration(labelText: "Description"),
                   controller: descriptionController,
+                  validator: (value) {
+                    if (value == null || value.length < 10) {
+                      return "Please input product description";
+                    }
+                  },
                 ),
                 TextFormField(
                   decoration: InputDecoration(labelText: "Price"),
                   controller: priceController,
+                  validator: (value) {
+                    if (value == null || value.length < 2 || value == 0) {
+                      return "Please input product price";
+                    }
+                  },
                 ),
                 TextFormField(
                   decoration: InputDecoration(labelText: "Image Url"),
                   controller: imageUrlController,
+                  validator: (value) {
+                    if (value == null || value.length < 5) {
+                      return "Please input product image";
+                    }
+                  },
                 ),
+                SizedBox(
+                  height: 15,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        ApiServices().saveProduct(
+                            nameController.text,
+                            descriptionController.text,
+                            imageUrlController.text,
+                            priceController.text).then((value) => Navigator.pop(context));
+                      }
+                    },
+                    child: Text("Save"))
               ],
             ),
           ),
