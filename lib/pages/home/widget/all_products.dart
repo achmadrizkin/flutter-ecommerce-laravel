@@ -52,7 +52,7 @@ class _AllProductsState extends State<AllProducts> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ProductDetails()),
+                                builder: (context) => ProductDetails(data: data,)),
                           );
                         },
                         child: Container(
