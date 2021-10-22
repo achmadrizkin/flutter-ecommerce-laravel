@@ -19,7 +19,7 @@ class ApiServices {
   Future saveProduct(
       String name, String description, String imageURL, String price) async {
     final response =
-        await http.post(Uri.parse('https://achmadrizkin.my.id/flutter-store-app/public/api/products/'), body: {
+        await http.post(Uri.parse('https://achmadrizkin.my.id/flutter-store-app/public/api/products'), body: {
       "name": name,
       "description": description,
       "price": price,
