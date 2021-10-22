@@ -7,7 +7,7 @@ class ApiServices {
   // get data from API
   Future<Barang> getData() async {
     final response =
-        await http.get(Uri.parse('http://10.0.2.2:8001/api/products'));
+        await http.get(Uri.parse('https://achmadrizkin.my.id/flutter-store-app/public/api/products/'));
 
     if (response.statusCode == 200) {
       return Barang.fromJson(jsonDecode(response.body));
@@ -19,7 +19,7 @@ class ApiServices {
   Future saveProduct(
       String name, String description, String imageURL, String price) async {
     final response =
-        await http.post(Uri.parse('http://10.0.2.2:8001/api/products'), body: {
+        await http.post(Uri.parse('https://achmadrizkin.my.id/flutter-store-app/public/api/products/'), body: {
       "name": name,
       "description": description,
       "price": price,
@@ -32,7 +32,7 @@ class ApiServices {
   Future updateProduct(String name, String description, String imageURL,
       String price, int id) async {
     final response = await http.put(
-        Uri.parse('http://10.0.2.2:8001/api/products/' + id.toString()),
+        Uri.parse('https://achmadrizkin.my.id/flutter-store-app/public/api/products/' + id.toString()),
         body: {
           "name": name,
           "description": description,
@@ -45,7 +45,7 @@ class ApiServices {
 
   Future deleteProduct(int id) async {
     final response = await http
-        .delete(Uri.parse('http://10.0.2.2:8001/api/products/' + id.toString()));
+        .delete(Uri.parse('https://achmadrizkin.my.id/flutter-store-app/public/api/products/' + id.toString()));
 
     return jsonDecode(response.body);
   }
