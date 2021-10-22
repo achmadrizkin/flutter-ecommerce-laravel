@@ -14,5 +14,8 @@ const Color black = Colors.black;
 const Color unselectedItem = Color(0xFFb8b8b8);
 const Color bottomNavigation = Color(0xFF282828);
 const Color brownClr = Color(0xFF42393c);
+
 const Color grey = Colors.grey;
 const Color blue = Colors.blue;
+const Color red = Colors.red;
+const Color green = Colors.green;
