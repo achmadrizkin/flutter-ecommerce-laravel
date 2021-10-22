@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/model/products_model.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/add_product.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/all_products.dart';
-import 'package:flutter_ecommerce_laravel/service/api_services.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
 
