@@ -4,6 +4,7 @@ import 'package:flutter_ecommerce_laravel/pages/cart/cart_product.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/add_product.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/all_products.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/flashdisk_product.dart';
+import 'package:flutter_ecommerce_laravel/pages/home/widget/product_brand.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
 
@@ -44,25 +45,34 @@ class _HomeState extends State<Home> {
         child: Icon(Icons.add),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10, top: 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AutoSizeText(
-                "All Product",
-                style: headingStyle.copyWith(fontSize: 18),
-              ),
-              AllProducts(),
-
-              //
-              AutoSizeText(
-                "Flashdisk Product",
-                style: headingStyle.copyWith(fontSize: 18),
-              ),
-              GetProductByName(),
-            ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10, top: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AutoSizeText(
+                  "All Product",
+                  style: headingStyle.copyWith(fontSize: 18),
+                ),
+                AllProducts(),
+        
+                //
+                AutoSizeText(
+                  "Flashdisk Product",
+                  style: headingStyle.copyWith(fontSize: 18),
+                ),
+                GetProductByName(),
+        
+                //
+                AutoSizeText(
+                  "Onikuma Brand",
+                  style: headingStyle.copyWith(fontSize: 18),
+                ),
+                ProductBrand(),
+              ],
+            ),
           ),
         ),
       ),
