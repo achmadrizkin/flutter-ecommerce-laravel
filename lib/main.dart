@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        title: "Flutter E-Commerce",
         debugShowCheckedModeBanner: false,
         home: SplashScreen(),
       ),
