@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/model/get_cart_model.dart';
 import 'package:flutter_ecommerce_laravel/service/api_services.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
+import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
 
 class CartProducts extends StatefulWidget {
   const CartProducts({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class CartProducts extends StatefulWidget {
 }
 
 class _CartProductsState extends State<CartProducts> {
-  List<GetCart> favorite = [];
+  List<GetCart> cart = [];
   String query = "arizki.nf02@gmail.com";
   Timer? debouncer;
 
@@ -44,26 +45,26 @@ class _CartProductsState extends State<CartProducts> {
   }
 
   Future searchBook(String query) async => debounce(() async {
-        final favorite = await ApiServices().getMusic(query);
+        final cart = await ApiServices().getCartByUser(query);
 
         if (!mounted) return;
 
         setState(() {
           this.query = query;
-          this.favorite = favorite;
+          this.cart = cart;
         });
       });
 
   Future init() async {
-    final favorite = await ApiServices().getMusic(query);
+    final cart = await ApiServices().getCartByUser(query);
 
-    setState(() => this.favorite = favorite);
+    setState(() => this.cart = cart);
   }
 
   @override
   Widget build(BuildContext context) {
     //
-    Widget buildBook(GetCart music, int index, List<GetCart> listMusic) =>
+    Widget buildBook(GetCart music) =>
         ListTile(
           leading: music.imageUrl == null
               ? SizedBox(height: 5)
@@ -85,11 +86,15 @@ class _CartProductsState extends State<CartProducts> {
       appBar: AppBar(
         backgroundColor: black,
         leading: IconButton(
-          icon: Icon(Icons.person),
-          onPressed: () {},
+          icon: Icon(Icons.arrow_back_ios_new),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        title: Text("Your Favourite Music"),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.settings))],
+        title: Text(
+          "Your Favourite Music",
+          style: headingStyle,
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -97,27 +102,29 @@ class _CartProductsState extends State<CartProducts> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
-                child: RefreshIndicator(onRefresh: () async {
-                  final favorite = await ApiServices().getMusic(query);
+                child: RefreshIndicator(
+                    onRefresh: () async {
+                      final cart = await ApiServices().getCartByUser(query);
 
-                  setState(() => this.favorite = favorite);
-                }, child: FutureBuilder<List<GetCart>>(
-                  future: ApiServices().getMusic(query),
-                  builder: (context, index) {
-                    return SizedBox(
-                      width: MediaQuery.of(context).size.width - 20,
-                      height: MediaQuery.of(context).size.height - 200,
-                      child: ListView.builder(
-                        itemCount: favorite.length,
-                        itemBuilder: (context, index) {
-                          final book = favorite[index];
+                      setState(() => this.cart = cart);
+                    },
+                    child: FutureBuilder<List<GetCart>>(
+                      future: ApiServices().getCartByUser(query),
+                      builder: (context, index) {
+                        return SizedBox(
+                          width: MediaQuery.of(context).size.width - 20,
+                          height: MediaQuery.of(context).size.height - 200,
+                          child: ListView.builder(
+                            itemCount: cart.length,
+                            itemBuilder: (context, index) {
+                              final book = cart[index];
 
-                          return buildBook(book, index, favorite);
-                        },
-                      ),
-                    );
-                  },
-                )),
+                              return buildBook(book);
+                            },
+                          ),
+                        );
+                      },
+                    )),
               )
             ],
           ),
