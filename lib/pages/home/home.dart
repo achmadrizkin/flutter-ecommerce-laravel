@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/pages/cart/cart_product.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/add_product.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/all_products.dart';
+import 'package:flutter_ecommerce_laravel/pages/home/widget/flashdisk_product.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
 
@@ -21,7 +22,7 @@ class _HomeState extends State<Home> {
       backgroundColor: black,
       appBar: AppBar(
         backgroundColor: black,
-        title: Text("E-Commerce Shop"),
+        title: Text("E-Commerce Shop", style: headingStyle,),
         actions: [
           IconButton(
               onPressed: () {
@@ -51,16 +52,16 @@ class _HomeState extends State<Home> {
             children: [
               AutoSizeText(
                 "All Product",
-                style: headingStyle.copyWith(fontSize: 20),
+                style: headingStyle.copyWith(fontSize: 18),
               ),
               AllProducts(),
 
               //
               AutoSizeText(
-                "All Product",
-                style: headingStyle.copyWith(fontSize: 20),
+                "Flashdisk Product",
+                style: headingStyle.copyWith(fontSize: 18),
               ),
-              AllProducts(),
+              GetProductByName(),
             ],
           ),
         ),
