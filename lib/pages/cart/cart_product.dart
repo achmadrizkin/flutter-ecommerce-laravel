@@ -97,25 +97,27 @@ class _CartProductsState extends State<CartProducts> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    final favorite = await ApiServices().getMusic(query);
+                child: RefreshIndicator(onRefresh: () async {
+                  final favorite = await ApiServices().getMusic(query);
 
-                    setState(() => this.favorite = favorite);
+                  setState(() => this.favorite = favorite);
+                }, child: FutureBuilder<List<GetCart>>(
+                  future: ApiServices().getMusic(query),
+                  builder: (context, index) {
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width - 20,
+                      height: MediaQuery.of(context).size.height - 200,
+                      child: ListView.builder(
+                        itemCount: favorite.length,
+                        itemBuilder: (context, index) {
+                          final book = favorite[index];
+
+                          return buildBook(book, index, favorite);
+                        },
+                      ),
+                    );
                   },
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width - 20,
-                    height: MediaQuery.of(context).size.height - 200,
-                    child: ListView.builder(
-                      itemCount: favorite.length,
-                      itemBuilder: (context, index) {
-                        final book = favorite[index];
-
-                        return buildBook(book, index, favorite);
-                      },
-                    ),
-                  ),
-                ),
+                )),
               )
             ],
           ),
