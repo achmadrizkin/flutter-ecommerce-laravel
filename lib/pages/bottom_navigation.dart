@@ -59,8 +59,8 @@ class _BottomNavState extends State<BottomNav> {
                         label: 'Search',
                       ),
                       BottomNavigationBarItem(
-                        icon: Icon(Icons.library_books),
-                        label: 'Your Library',
+                        icon: Icon(Icons.person),
+                        label: 'User',
                       ),
                     ],
                     currentIndex: _selectedIndex,
