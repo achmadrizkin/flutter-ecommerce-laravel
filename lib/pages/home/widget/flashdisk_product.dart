@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/model/get_products.dart';
+import 'package:flutter_ecommerce_laravel/pages/product_details/product_getProduct.dart';
 import 'package:flutter_ecommerce_laravel/service/api_services.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
@@ -83,7 +84,12 @@ class _GetProductByNameState extends State<GetProductByName> {
                 return Container(
                     color: black,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ProductGetProductDetails(data: data,)),
+                      );
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width / 2 - 40,
                               height: MediaQuery.of(context).size.height / 2 - 10,
