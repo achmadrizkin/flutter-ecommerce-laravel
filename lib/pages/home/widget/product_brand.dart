@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/model/get_products.dart';
+import 'package:flutter_ecommerce_laravel/pages/product_details/product_getProduct.dart';
 import 'package:flutter_ecommerce_laravel/service/api_services.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
@@ -81,49 +82,53 @@ class _ProductBrandState extends State<ProductBrand> {
                 final data = product[index];
 
                 return Container(
-                    color: black,
-                    child: InkWell(
-                      onTap: () {},
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 2 - 40,
-                              height: MediaQuery.of(context).size.height / 2 - 10,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
-                          color: black,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 120,
-                              height: 120,
-                              decoration: BoxDecoration(),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.network(
-                                  data.imageUrl,
-                                  fit: BoxFit.cover,
-                                ),
+                  color: black,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ProductGetProductDetails(data: data,)),
+                      );
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 2 - 40,
+                      height: MediaQuery.of(context).size.height / 2 - 10,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: black,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 120,
+                            height: 120,
+                            decoration: BoxDecoration(),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.network(
+                                data.imageUrl,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            AutoSizeText(data.name,
-                                style: headingStyle2.copyWith(
-                                    color: Colors.white,
-                                    overflow: TextOverflow.ellipsis)),
-                            AutoSizeText("\$ ${data.price}",
-                                style: subTitleTextStyle.copyWith(
-                                    color: Colors.grey,
-                                    fontSize: 5,
-                                    overflow: TextOverflow.ellipsis)),
-                          ],
-                        ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          AutoSizeText(data.name,
+                              style: headingStyle2.copyWith(
+                                  color: Colors.white,
+                                  overflow: TextOverflow.ellipsis)),
+                          AutoSizeText("\$ ${data.price}",
+                              style: subTitleTextStyle.copyWith(
+                                  color: Colors.grey,
+                                  fontSize: 5,
+                                  overflow: TextOverflow.ellipsis)),
+                        ],
                       ),
-                  
+                    ),
                   ),
                 );
               },
