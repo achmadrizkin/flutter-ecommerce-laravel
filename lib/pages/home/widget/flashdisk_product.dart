@@ -66,70 +66,71 @@ class _GetProductByNameState extends State<GetProductByName> {
   Widget build(BuildContext context) {
     //
 
-    return FutureBuilder<List<GetProduct>>(
-      future: ApiServices().getByProduct(query),
-      builder: (context, index) {
-        return SizedBox(
-          width: MediaQuery.of(context).size.width - 20,
-          height: MediaQuery.of(context).size.height / 4,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: product.length,
-            itemBuilder: (context, index) {
-              final data = product[index];
+    return Padding(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: FutureBuilder<List<GetProduct>>(
+        future: ApiServices().getByProduct(query),
+        builder: (context, index) {
+          return SizedBox(
+            width: MediaQuery.of(context).size.width - 20,
+            height: MediaQuery.of(context).size.height / 4,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: product.length,
+              itemBuilder: (context, index) {
+                final data = product[index];
 
-              return Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: Container(
-                  color: black,
-                  child: InkWell(
-                    onTap: () {},
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 2 - 40,
-                            height: MediaQuery.of(context).size.height / 2 - 10,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: black,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 120,
-                            height: 120,
-                            decoration: BoxDecoration(),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.network(
-                                data.imageUrl,
-                                fit: BoxFit.cover,
+                return Container(
+                    color: black,
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 2 - 40,
+                              height: MediaQuery.of(context).size.height / 2 - 10,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: black,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 120,
+                              height: 120,
+                              decoration: BoxDecoration(),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.network(
+                                  data.imageUrl,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          AutoSizeText(data.name,
-                              style: headingStyle2.copyWith(
-                                  color: Colors.white,
-                                  overflow: TextOverflow.ellipsis)),
-                          AutoSizeText("\$ ${data.price}",
-                              style: subTitleTextStyle.copyWith(
-                                  color: Colors.grey,
-                                  fontSize: 5,
-                                  overflow: TextOverflow.ellipsis)),
-                        ],
+                            SizedBox(
+                              height: 10,
+                            ),
+                            AutoSizeText(data.name,
+                                style: headingStyle2.copyWith(
+                                    color: Colors.white,
+                                    overflow: TextOverflow.ellipsis)),
+                            AutoSizeText("\$ ${data.price}",
+                                style: subTitleTextStyle.copyWith(
+                                    color: Colors.grey,
+                                    fontSize: 5,
+                                    overflow: TextOverflow.ellipsis)),
+                          ],
+                        ),
                       ),
-                    ),
+                  
                   ),
-                ),
-              );
-            },
-          ),
-        );
-      },
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }
