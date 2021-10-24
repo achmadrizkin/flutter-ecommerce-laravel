@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddProduct()),
+            MaterialPageRoute(builder: (context) => AddProduct(model: widget.model,)),
           );
         },
         child: Icon(Icons.add),
