@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "164884824790",
+    "project_id": "flutter-ecommerce-signin",
+    "storage_bucket": "flutter-ecommerce-signin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164884824790:android:09d02f64fd60394d7b7f77",
+        "android_client_info": {
+          "package_name": "com.example.flutter_ecommerce_laravel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "164884824790-plv4c1eremetv09r6shu2fu5r9iiqsm9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_ecommerce_laravel",
+            "certificate_hash": "0af0ef67864b6fe8cb9efb16ce81374b9fd6bdc6"
+          }
+        },
+        {
+          "client_id": "164884824790-uk2salm3anofb6tgjb57h1vbf7ae3aqa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMzv9gmoCYPFXDNWZU-xNQtHMn6uebY8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "164884824790-uk2salm3anofb6tgjb57h1vbf7ae3aqa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
