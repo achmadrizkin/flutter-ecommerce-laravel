@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/service/api_services.dart';
+import 'package:flutter_ecommerce_laravel/service/login_controller.dart';
 
 class AddProduct extends StatefulWidget {
-  const AddProduct({Key? key}) : super(key: key);
+  const AddProduct({Key? key, required this.model}) : super(key: key);
+
+  final LoginController model;
 
   @override
   State<AddProduct> createState() => _AddProductState();
@@ -85,11 +88,14 @@ class _AddProductState extends State<AddProduct> {
                 ElevatedButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        ApiServices().saveProduct(
-                            nameController.text,
-                            descriptionController.text,
-                            imageUrlController.text,
-                            priceController.text).then((value) => Navigator.pop(context));
+                        ApiServices()
+                            .saveProduct(
+                                nameController.text,
+                                widget.model,
+                                descriptionController.text,
+                                imageUrlController.text,
+                                priceController.text)
+                            .then((value) => Navigator.pop(context));
                       }
                     },
                     child: Text("Save"))

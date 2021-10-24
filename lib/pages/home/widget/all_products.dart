@@ -108,7 +108,7 @@ class _AllProductsState extends State<AllProducts> {
               colors: [
                 grey,
                 // light color
-                grey,
+                white,
                 // Medium color
                 grey,
               ],
