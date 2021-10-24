@@ -5,7 +5,8 @@ import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
 
 class ProductGetProductDetails extends StatelessWidget {
-  const ProductGetProductDetails({Key? key, required this.data}) : super(key: key);
+  const ProductGetProductDetails({Key? key, required this.data})
+      : super(key: key);
 
   final GetProduct data;
 
@@ -34,22 +35,24 @@ class ProductGetProductDetails extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width - 20,
-              height: MediaQuery.of(context).size.height * 0.45,
-              decoration: BoxDecoration(),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Image.network(
-                  data.imageUrl,
-                  fit: BoxFit.cover,
+            Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width - 20,
+                height: MediaQuery.of(context).size.height * 0.45,
+                decoration: BoxDecoration(),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Image.network(
+                    data.imageUrl,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
 
             //
             Padding(
-              padding: const EdgeInsets.only(left: 10.0, right: 10, top: 5),
+              padding: const EdgeInsets.only(left: 15.0, right: 10, top: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -64,8 +67,53 @@ class ProductGetProductDetails extends StatelessWidget {
                 ],
               ),
             ),
+            
             SizedBox(
-              height: MediaQuery.of(context).size.height / 16,
+              height: 15,
+            ),
+
+            //
+            Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width - 20,
+                height: MediaQuery.of(context).size.height / 10,
+                decoration: BoxDecoration(
+                    color: white, borderRadius: BorderRadius.circular(20)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Icon(Icons.person),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AutoSizeText(data.userName,
+                            style: headingStyle.copyWith(
+                                color: black, fontSize: 16)),
+                        AutoSizeText(
+                          data.userEmail,
+                          style: subTitleTextStyle.copyWith(
+                              color: Colors.black45, fontSize: 12),
+                        ),
+                      ],
+                    ),
+
+                    //
+                    OutlineButton(
+                        onPressed: () {},
+                        child: AutoSizeText(
+                          "Visit Store",
+                          style: headingStyle.copyWith(color: Colors.red),
+                        ),
+                        borderSide: BorderSide(color: Colors.red),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(10.0))),
+                  ],
+                ),
+              ),
+            ),
+
+            SizedBox(
+              height: 20,
             ),
 
             //
