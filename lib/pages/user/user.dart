@@ -1,11 +1,14 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/pages/user/widget/user_detail.dart';
+import 'package:flutter_ecommerce_laravel/service/login_controller.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
 
 class User extends StatelessWidget {
-  const User({Key? key}) : super(key: key);
+  const User({Key? key, required this.model}) : super(key: key);
+
+  final LoginController model;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +21,7 @@ class User extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            UserDetails(screenWidth: screenWidth, screenHeight: screenHeight),
+            UserDetails(screenWidth: screenWidth, screenHeight: screenHeight, models: model,),
             SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.only(left: 10.0, right: 10),
