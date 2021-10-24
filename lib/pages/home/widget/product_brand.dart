@@ -145,7 +145,7 @@ class _ProductBrandState extends State<ProductBrand> {
               colors: [
                 grey,
                 // light color
-                grey,
+                white,
                 // Medium color
                 grey,
               ],
