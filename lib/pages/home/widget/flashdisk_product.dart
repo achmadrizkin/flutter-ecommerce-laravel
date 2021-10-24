@@ -145,7 +145,7 @@ class _GetProductByNameState extends State<GetProductByName> {
               colors: [
                 grey,
                 // light color
-                grey,
+                white,
                 // Medium color
                 grey,
               ],
