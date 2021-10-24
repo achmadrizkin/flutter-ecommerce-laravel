@@ -1,17 +1,21 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_laravel/service/login_controller.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
+import 'package:provider/provider.dart';
 
 class UserDetails extends StatelessWidget {
   const UserDetails({
     Key? key,
     required this.screenWidth,
     required this.screenHeight,
+    required this.models,
   }) : super(key: key);
 
   final double screenWidth;
   final double screenHeight;
+  final LoginController models;
 
   @override
   Widget build(BuildContext context) {
@@ -29,28 +33,27 @@ class UserDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ClipOval(
-            child: Image.network(
-                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80",
-                fit: BoxFit.cover,
-                width: 80,
-                height: 80),
+            child: Image.network(models.userDetails!.photoURL ?? "",
+                fit: BoxFit.cover, width: 80, height: 80),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AutoSizeText("Achmad Rizki Nur F",
+              AutoSizeText(models.userDetails!.displayName ?? "",
                   style: headingStyle.copyWith(
                     color: black,
                   )),
               AutoSizeText(
-                "arizki.nf02@gmail.com",
+                models.userDetails!.email ?? "",
                 style: subTitleTextStyle.copyWith(color: grey),
               ),
             ],
           ),
           IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {},
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              Provider.of<LoginController>(context, listen: false).logOut();
+            },
           ),
         ],
       ),
