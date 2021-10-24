@@ -2,7 +2,7 @@ import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
-import 'package:flutter_ecommerce_laravel/pages/bottom_navigation.dart';
+import 'package:flutter_ecommerce_laravel/pages/login/sign_up.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
 
@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
     ]);
     Timer(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => BottomNav(),
+        builder: (context) => LoginPage(),
       ));
     });
   }
