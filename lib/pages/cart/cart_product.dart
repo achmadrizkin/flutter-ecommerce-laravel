@@ -5,11 +5,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/model/get_cart_model.dart';
 import 'package:flutter_ecommerce_laravel/service/api_services.dart';
+import 'package:flutter_ecommerce_laravel/service/login_controller.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
 
 class CartProducts extends StatefulWidget {
-  const CartProducts({Key? key}) : super(key: key);
+  const CartProducts({Key? key, required this.model}) : super(key: key);
+  
+  final LoginController model;
 
   @override
   State<CartProducts> createState() => _CartProductsState();
@@ -17,12 +20,13 @@ class CartProducts extends StatefulWidget {
 
 class _CartProductsState extends State<CartProducts> {
   List<GetCart> cart = [];
-  String query = "arizki.nf02@gmail.com";
+  String? query = "a";
   Timer? debouncer;
 
   @override
   void initState() {
     super.initState();
+    query = widget.model.userDetails!.email;
 
     init();
   }
@@ -56,7 +60,7 @@ class _CartProductsState extends State<CartProducts> {
       });
 
   Future init() async {
-    final cart = await ApiServices().getCartByUser(query);
+    final cart = await ApiServices().getCartByUser(query!);
 
     setState(() => this.cart = cart);
   }
@@ -104,12 +108,12 @@ class _CartProductsState extends State<CartProducts> {
                 padding: const EdgeInsets.only(bottom: 10.0),
                 child: RefreshIndicator(
                     onRefresh: () async {
-                      final cart = await ApiServices().getCartByUser(query);
+                      final cart = await ApiServices().getCartByUser(query!);
 
                       setState(() => this.cart = cart);
                     },
                     child: FutureBuilder<List<GetCart>>(
-                      future: ApiServices().getCartByUser(query),
+                      future: ApiServices().getCartByUser(query!),
                       builder: (context, index) {
                         return SizedBox(
                           width: MediaQuery.of(context).size.width - 20,
