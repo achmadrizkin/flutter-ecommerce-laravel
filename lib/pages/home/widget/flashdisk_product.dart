@@ -9,6 +9,7 @@ import 'package:flutter_ecommerce_laravel/pages/product_details/product_getProdu
 import 'package:flutter_ecommerce_laravel/service/api_services.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
+import 'package:flutter_shimmer/flutter_shimmer.dart';
 
 class GetProductByName extends StatefulWidget {
   const GetProductByName({Key? key}) : super(key: key);
@@ -71,28 +72,32 @@ class _GetProductByNameState extends State<GetProductByName> {
       padding: const EdgeInsets.only(left: 10.0),
       child: FutureBuilder<List<GetProduct>>(
         future: ApiServices().getByProduct(query),
-        builder: (context, index) {
-          return SizedBox(
-            width: MediaQuery.of(context).size.width - 20,
-            height: MediaQuery.of(context).size.height / 4,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: product.length,
-              itemBuilder: (context, index) {
-                final data = product[index];
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return SizedBox(
+              width: MediaQuery.of(context).size.width - 20,
+              height: MediaQuery.of(context).size.height / 4,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: product.length,
+                itemBuilder: (context, index) {
+                  final data = product[index];
 
-                return Container(
+                  return Container(
                     color: black,
                     child: InkWell(
                       onTap: () {
                         Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ProductGetProductDetails(data: data,)),
-                      );
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProductGetProductDetails(
+                                    data: data,
+                                  )),
+                        );
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width / 2 - 40,
-                              height: MediaQuery.of(context).size.height / 2 - 10,
+                        height: MediaQuery.of(context).size.height / 2 - 10,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15.0),
@@ -129,12 +134,23 @@ class _GetProductByNameState extends State<GetProductByName> {
                           ],
                         ),
                       ),
-                  
-                  ),
-                );
-              },
-            ),
-          );
+                    ),
+                  );
+                },
+              ),
+            );
+          } else {
+            return PlayStoreShimmer(
+              hasCustomColors: true,
+              colors: [
+                grey,
+                // light color
+                grey,
+                // Medium color
+                grey,
+              ],
+            );
+          }
         },
       ),
     );
