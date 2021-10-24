@@ -31,12 +31,6 @@ class _CartProductsState extends State<CartProducts> {
     init();
   }
 
-  @override
-  void dispose() {
-    debouncer?.cancel();
-    super.dispose();
-  }
-
   void debounce(
     VoidCallback callback, {
     Duration duration = const Duration(milliseconds: 1000),
