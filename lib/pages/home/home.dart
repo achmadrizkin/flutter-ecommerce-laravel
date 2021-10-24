@@ -5,11 +5,14 @@ import 'package:flutter_ecommerce_laravel/pages/home/widget/add_product.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/all_products.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/flashdisk_product.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/product_brand.dart';
+import 'package:flutter_ecommerce_laravel/service/login_controller.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
 
 class Home extends StatefulWidget {
-  Home({Key? key}) : super(key: key);
+  Home({Key? key, required this.model}) : super(key: key);
+
+  final LoginController model;
 
   @override
   State<Home> createState() => _HomeState();
@@ -29,7 +32,7 @@ class _HomeState extends State<Home> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CartProducts()),
+                  MaterialPageRoute(builder: (context) => CartProducts(model: widget.model,)),
                 );
               },
               icon: Icon(Icons.shopping_cart))
