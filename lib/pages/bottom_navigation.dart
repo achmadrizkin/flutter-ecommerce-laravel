@@ -4,11 +4,14 @@ import 'package:flutter_ecommerce_laravel/pages/home/home.dart';
 import 'package:flutter_ecommerce_laravel/pages/search/search.dart';
 import 'package:flutter_ecommerce_laravel/pages/user/user.dart';
 import 'package:flutter_ecommerce_laravel/provider/connectivity_provider.dart';
+import 'package:flutter_ecommerce_laravel/service/login_controller.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:provider/provider.dart';
 
 class BottomNav extends StatefulWidget {
-  const BottomNav({Key? key}) : super(key: key);
+  const BottomNav({Key? key, required this.model}) : super(key: key);
+
+  final LoginController model;
 
   @override
   State<BottomNav> createState() => _BottomNavState();
@@ -16,20 +19,34 @@ class BottomNav extends StatefulWidget {
 
 /// This is the private State class that goes with BottomNav.
 class _BottomNavState extends State<BottomNav> {
+  late LoginController models;
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  static List<Widget> _widgetOptions = <Widget>[
-    Home(),
-    Search(),
-    User(),
-  ];
-
   @override
   void initState() {
     super.initState();
+    models = widget.model;
     Provider.of<ConnectivityProvider>(context, listen: false).startMonitoring();
+  }
+
+  Widget getPage(int index) {
+    switch (index) {
+      case 0:
+        return Home(
+          model: widget.model,
+        );
+        break;
+      case 1:
+        return Search();
+        break;
+      default:
+        return User(
+          model: widget.model,
+        );
+        break;
+    }
   }
 
   void _onItemTapped(int index) {
@@ -46,7 +63,7 @@ class _BottomNavState extends State<BottomNav> {
           return model.isOnline
               ? Scaffold(
                   body: Center(
-                    child: _widgetOptions.elementAt(_selectedIndex),
+                    child: getPage(_selectedIndex),
                   ),
                   bottomNavigationBar: BottomNavigationBar(
                     items: const <BottomNavigationBarItem>[
