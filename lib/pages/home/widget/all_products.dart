@@ -5,6 +5,8 @@ import 'package:flutter_ecommerce_laravel/pages/product_details/product_details.
 import 'package:flutter_ecommerce_laravel/service/api_services.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
+import 'package:flutter_shimmer/flutter_shimmer.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AllProducts extends StatefulWidget {
   const AllProducts({Key? key}) : super(key: key);
@@ -52,7 +54,9 @@ class _AllProductsState extends State<AllProducts> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ProductDetails(data: data,)),
+                                builder: (context) => ProductDetails(
+                                      data: data,
+                                    )),
                           );
                         },
                         child: Container(
@@ -99,8 +103,15 @@ class _AllProductsState extends State<AllProducts> {
                   }),
             );
           } else {
-            return SizedBox(
-              width: 0,
+            return PlayStoreShimmer(
+              hasCustomColors: true,
+              colors: [
+                grey,
+                // light color
+                grey,
+                // Medium color
+                grey,
+              ],
             );
           }
         },
