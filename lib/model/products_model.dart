@@ -6,6 +6,8 @@ import 'dart:convert';
 
 Barang barangFromJson(String str) => Barang.fromJson(json.decode(str));
 
+String barangToJson(Barang data) => json.encode(data.toJson());
+
 class Barang {
   Barang({
     required this.message,
@@ -19,12 +21,19 @@ class Barang {
         message: json["message"],
         data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
       );
+
+  Map<String, dynamic> toJson() => {
+        "message": message,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+      };
 }
 
 class Datum {
   Datum({
     required this.id,
     required this.name,
+    required this.userName,
+    required this.userEmail,
     required this.description,
     required this.price,
     required this.imageUrl,
@@ -34,6 +43,8 @@ class Datum {
 
   final int id;
   final String name;
+  final String userName;
+  final String userEmail;
   final String description;
   final String price;
   final String imageUrl;
@@ -43,10 +54,24 @@ class Datum {
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         name: json["name"],
+        userName: json["userName"],
+        userEmail: json["userEmail"],
         description: json["description"],
         price: json["price"],
         imageUrl: json["image_url"],
-        createdAt: json["created_at"] == null ? null : json["created_at"],
-        updatedAt: json["updated_at"] == null ? null : json["updated_at"],
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"],
       );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "userName": userName,
+        "userEmail": userEmail,
+        "description": description,
+        "price": price,
+        "image_url": imageUrl,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+      };
 }
