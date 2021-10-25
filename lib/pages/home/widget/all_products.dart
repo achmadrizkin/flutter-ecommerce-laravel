@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/model/products_model.dart';
 import 'package:flutter_ecommerce_laravel/pages/product_details/product_details.dart';
 import 'package:flutter_ecommerce_laravel/service/api_services.dart';
+import 'package:flutter_ecommerce_laravel/service/login_controller.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
-import 'package:shimmer/shimmer.dart';
 
 class AllProducts extends StatefulWidget {
   const AllProducts({Key? key}) : super(key: key);
@@ -69,7 +69,7 @@ class _AllProductsState extends State<AllProducts> {
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
                                 width: 120,
@@ -86,15 +86,25 @@ class _AllProductsState extends State<AllProducts> {
                               SizedBox(
                                 height: 10,
                               ),
-                              AutoSizeText(data.name,
-                                  style: headingStyle2.copyWith(
-                                      color: Colors.white,
-                                      overflow: TextOverflow.ellipsis)),
-                              AutoSizeText("\$ ${data.price}",
-                                  style: subTitleTextStyle.copyWith(
-                                      color: Colors.grey,
-                                      fontSize: 5,
-                                      overflow: TextOverflow.ellipsis)),
+
+                              //
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0, right: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AutoSizeText(data.name,
+                                        style: headingStyle2.copyWith(
+                                            color: Colors.white,
+                                            overflow: TextOverflow.ellipsis)),
+                                    AutoSizeText("\$ ${data.price}",
+                                        style: subTitleTextStyle.copyWith(
+                                            color: Colors.grey,
+                                            fontSize: 5,
+                                            overflow: TextOverflow.ellipsis)),
+                                  ],
+                                ),
+                              )
                             ],
                           ),
                         ),
