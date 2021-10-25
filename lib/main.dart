@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/pages/splash_screen.dart';
 import 'package:flutter_ecommerce_laravel/provider/connectivity_provider.dart';
+import 'package:flutter_ecommerce_laravel/service/login_controller.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -17,7 +18,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => ConnectivityProvider(),
           child: SplashScreen(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LoginController(),
+          child: SplashScreen(),
+        ),
       ],
       child: MaterialApp(
         title: "Flutter E-Commerce",
