@@ -93,4 +93,21 @@ class ApiServices {
       throw Exception();
     }
   }
+
+  Future<List<GetCart>> getCartByUserProducts(String query) async {
+    final response = await http
+        .get(Uri.parse('https://achmadrizkin.my.id/flutter-store-app/php/select_products.php'));
+
+    if (response.statusCode == 200) {
+      final List favorite = json.decode(response.body);
+      return favorite.map((json) => GetCart.fromJson(json)).where((favorite) {
+        final favoriteLower = favorite.userEmail.toLowerCase();
+        final searchLower = query.toLowerCase();
+
+        return favoriteLower.contains(searchLower);
+      }).toList();
+    } else {
+      throw Exception();
+    }
+  }
 }
