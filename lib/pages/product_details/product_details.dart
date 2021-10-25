@@ -1,6 +1,8 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/model/products_model.dart';
+import 'package:flutter_ecommerce_laravel/pages/invoice/invoice_checkout.dart';
+import 'package:flutter_ecommerce_laravel/pages/user_shop/user_shop.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
 
@@ -66,7 +68,7 @@ class ProductDetails extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             SizedBox(
               height: 15,
             ),
@@ -98,7 +100,15 @@ class ProductDetails extends StatelessWidget {
 
                     //
                     OutlineButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UserShop(
+                                      data: data,
+                                    )),
+                          );
+                        },
                         child: AutoSizeText(
                           "Visit Store",
                           style: headingStyle.copyWith(color: Colors.red),
@@ -114,7 +124,7 @@ class ProductDetails extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            
+
             //
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -146,7 +156,13 @@ class ProductDetails extends StatelessWidget {
                 SizedBox(
                     width: MediaQuery.of(context).size.width / 2 - 10,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CheckOut(data: data,)),
+                        );
+                      },
                       child: Text(
                         "Buy Right Now",
                         style: subTitleTextStyle.copyWith(
