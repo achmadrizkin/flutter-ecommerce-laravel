@@ -1,6 +1,7 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/model/get_products.dart';
+import 'package:flutter_ecommerce_laravel/pages/user_shop/user_shop2.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
 
@@ -67,7 +68,7 @@ class ProductGetProductDetails extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             SizedBox(
               height: 15,
             ),
@@ -99,7 +100,15 @@ class ProductGetProductDetails extends StatelessWidget {
 
                     //
                     OutlineButton(
-                        onPressed: () {},
+                        onPressed: () {
+                           Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UserShop2(
+                                      data: data,
+                                    )),
+                          );
+                        },
                         child: AutoSizeText(
                           "Visit Store",
                           style: headingStyle.copyWith(color: Colors.red),
