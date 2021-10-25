@@ -17,42 +17,22 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-            create: (context) => LoginController(),
-            child: Scaffold(
-              body: SafeArea(
-                child: Consumer<LoginController>(
-                  builder: (context, models, child) {
-                    // if we already logged in
-                    if (models.userDetails != null) {
-                      return BottomNav(model: models);
-                    } else {
-                      return loginController(context);
-                    }
-                  },
-                ),
-              ),
-            )),
-      ],
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: Scaffold(
-            backgroundColor: black,
-            body: SafeArea(
-              child: Consumer<LoginController>(
-                builder: (context, models, child) {
-                  // if we already logged in
-                  if (models.userDetails != null) {
-                    return BottomNav(model: models,);
-                  } else {
-                    return loginController(context);
-                  }
-                },
-              ),
-            ),
-          )),
+    return Scaffold(
+      backgroundColor: black,
+      body: SafeArea(
+        child: Consumer<LoginController>(
+          builder: (context, models, child) {
+            // if we already logged in
+            if (models.userDetails != null) {
+              return BottomNav(
+                model: models,
+              );
+            } else {
+              return loginController(context);
+            }
+          },
+        ),
+      ),
     );
   }
 
@@ -69,7 +49,8 @@ class _LoginPageState extends State<LoginPage> {
             alignment: Alignment.centerLeft,
             child: Text(
               'Hey there\nWelcome back',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: white),
+              style: TextStyle(
+                  fontSize: 24, fontWeight: FontWeight.bold, color: white),
             ),
           ),
           SizedBox(
@@ -79,7 +60,8 @@ class _LoginPageState extends State<LoginPage> {
             alignment: Alignment.centerLeft,
             child: Text(
               'Login to your account to continue',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: white),
+              style: TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.normal, color: white),
             ),
           ),
           Spacer(),
@@ -109,8 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextSpan(
                     text: 'Log in',
                     style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: white),
+                        decoration: TextDecoration.underline, color: white),
                   ),
                 ],
               ),
