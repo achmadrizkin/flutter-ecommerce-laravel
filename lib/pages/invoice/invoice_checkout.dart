@@ -1,8 +1,14 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/model/products_model.dart';
+import 'package:flutter_ecommerce_laravel/pages/invoice/invoice_details/invoice_success_details.dart';
+import 'package:flutter_ecommerce_laravel/service/login_controller.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
+import 'package:flutter_ecommerce_laravel/utils/env.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class CheckOut extends StatefulWidget {
   const CheckOut({Key? key, required this.data}) : super(key: key);
@@ -14,6 +20,8 @@ class CheckOut extends StatefulWidget {
 }
 
 class _CheckOutState extends State<CheckOut> {
+  late Razorpay razorpay;
+
   double totalPrice = 5;
   int totalProduct = 1;
   double tax = 0.1;
@@ -22,6 +30,83 @@ class _CheckOutState extends State<CheckOut> {
   String? _dropDownValue;
 
   int deliveryPrice = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //
+    razorpay = Razorpay();
+    razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlerPaymentSuccess);
+    razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlerErrorFailure);
+    razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handlerExternalWallet);
+  }
+
+  //
+  void openCheckout() {
+    var options = {
+      "key": KEY_ID_RAZORAPP,
+      "amount": totalPriceAndTaxAndDelivery.round(),
+      "name": widget.data.name,
+      "description": widget.data.description,
+      "prefill": {
+        "contact": "2323232323",
+        "email": Provider.of<LoginController>(context, listen: false)
+            .userDetails!
+            .email
+      },
+      "external": {
+        "wallets": ["paytm"]
+      }
+    };
+
+    try {
+      razorpay.open(options);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void handlerPaymentSuccess(PaymentSuccessResponse response) {
+    print("Pament success");
+
+    //
+    Fluttertoast.showToast(
+            msg: "Payment Success",
+            backgroundColor: white,
+            textColor: black,
+            toastLength: Toast.LENGTH_SHORT)
+        .then((value) => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => InvoiceDetailsSuccess(
+                        paymentID: response.paymentId!,
+                      )),
+            ));
+  }
+
+  void handlerErrorFailure(PaymentFailureResponse respons) {
+    print("Pament error");
+
+    //
+    Fluttertoast.showToast(
+        msg: "ERROR Transaction",
+        backgroundColor: white,
+        textColor: black,
+        toastLength: Toast.LENGTH_SHORT);
+
+    //
+  }
+
+  void handlerExternalWallet(ExternalWalletResponse response) {
+    print("External Wallet");
+  }
+
+  @override
+  void dispose() {
+    razorpay.clear();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -252,9 +337,12 @@ class _CheckOutState extends State<CheckOut> {
               //
               SizedBox(height: 10),
               totalPriceAndTaxAndDelivery == 0
-                  ? AutoSizeText("Please pick delivery",
-                      style: headingStyle.copyWith(fontSize: 18, color: white))
-                  : AutoSizeText("Payment details",
+                  ? Center(
+                      child: AutoSizeText("Please pick delivery",
+                          style: headingStyle.copyWith(
+                              fontSize: 18, color: white)),
+                    )
+                  : AutoSizeText("Pay using:",
                       style: headingStyle.copyWith(fontSize: 18, color: white)),
 
               //
@@ -270,8 +358,10 @@ class _CheckOutState extends State<CheckOut> {
                           SizedBox(
                             width: MediaQuery.of(context).size.width / 2 - 20,
                             child: ElevatedButton(
-                              onPressed: () {},
-                              child: AutoSizeText("Buy",
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: AutoSizeText("Back",
                                   style: headingStyle2.copyWith(color: black)),
                               style: ElevatedButton.styleFrom(primary: white),
                             ),
@@ -281,8 +371,10 @@ class _CheckOutState extends State<CheckOut> {
                           SizedBox(
                             width: MediaQuery.of(context).size.width / 2 - 20,
                             child: ElevatedButton(
-                              onPressed: () {},
-                              child: AutoSizeText("Buy",
+                              onPressed: () {
+                                openCheckout();
+                              },
+                              child: AutoSizeText("Buy using Razorpay",
                                   style: headingStyle2.copyWith(color: black)),
                               style: ElevatedButton.styleFrom(primary: white),
                             ),
