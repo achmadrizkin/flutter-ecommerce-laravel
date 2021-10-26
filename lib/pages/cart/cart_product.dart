@@ -8,11 +8,12 @@ import 'package:flutter_ecommerce_laravel/service/api_services.dart';
 import 'package:flutter_ecommerce_laravel/service/login_controller.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
+import 'package:provider/provider.dart';
 
 class CartProducts extends StatefulWidget {
-  const CartProducts({Key? key, required this.model}) : super(key: key);
-  
-  final LoginController model;
+  const CartProducts({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<CartProducts> createState() => _CartProductsState();
@@ -26,7 +27,9 @@ class _CartProductsState extends State<CartProducts> {
   @override
   void initState() {
     super.initState();
-    query = widget.model.userDetails!.email;
+    query = Provider.of<LoginController>(context, listen: false)
+        .userDetails!
+        .email!;
 
     init();
   }
@@ -62,8 +65,7 @@ class _CartProductsState extends State<CartProducts> {
   @override
   Widget build(BuildContext context) {
     //
-    Widget buildBook(GetCart music) =>
-        ListTile(
+    Widget buildBook(GetCart music) => ListTile(
           leading: music.imageUrl == null
               ? SizedBox(height: 5)
               : Image.network(music.imageUrl),
