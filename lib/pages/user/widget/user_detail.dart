@@ -10,12 +10,10 @@ class UserDetails extends StatelessWidget {
     Key? key,
     required this.screenWidth,
     required this.screenHeight,
-    required this.models,
   }) : super(key: key);
 
   final double screenWidth;
   final double screenHeight;
-  final LoginController models;
 
   @override
   Widget build(BuildContext context) {
@@ -33,18 +31,28 @@ class UserDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ClipOval(
-            child: Image.network(models.userDetails!.photoURL ?? "",
-                fit: BoxFit.cover, width: 80, height: 80),
+            child: Image.network(
+                Provider.of<LoginController>(context, listen: false)
+                    .userDetails!
+                    .photoURL!,
+                fit: BoxFit.cover,
+                width: 80,
+                height: 80),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AutoSizeText(models.userDetails!.displayName ?? "",
+              AutoSizeText(
+                  Provider.of<LoginController>(context, listen: false)
+                      .userDetails!
+                      .displayName!,
                   style: headingStyle.copyWith(
                     color: black,
                   )),
               AutoSizeText(
-                models.userDetails!.email ?? "",
+                Provider.of<LoginController>(context, listen: false)
+                    .userDetails!
+                    .email!,
                 style: subTitleTextStyle.copyWith(color: grey),
               ),
             ],
