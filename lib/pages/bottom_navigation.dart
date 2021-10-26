@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_ecommerce_laravel/pages/connection/no_internet.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/home.dart';
 import 'package:flutter_ecommerce_laravel/pages/search/search.dart';
@@ -9,9 +10,7 @@ import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:provider/provider.dart';
 
 class BottomNav extends StatefulWidget {
-  const BottomNav({Key? key, required this.model}) : super(key: key);
-
-  final LoginController model;
+  const BottomNav({Key? key}) : super(key: key);
 
   @override
   State<BottomNav> createState() => _BottomNavState();
@@ -25,24 +24,19 @@ class _BottomNavState extends State<BottomNav> {
   @override
   void initState() {
     super.initState();
-    models = widget.model;
     Provider.of<ConnectivityProvider>(context, listen: false).startMonitoring();
   }
 
   Widget getPage(int index) {
     switch (index) {
       case 0:
-        return Home(
-          model: widget.model,
-        );
+        return Home();
         break;
       case 1:
         return Search();
         break;
       default:
-        return User(
-          model: widget.model,
-        );
+        return User();
         break;
     }
   }
@@ -59,30 +53,51 @@ class _BottomNavState extends State<BottomNav> {
       builder: (context, model, child) {
         if (model.isOnline != null) {
           return model.isOnline
-              ? Scaffold(
-                  body: Center(
-                    child: getPage(_selectedIndex),
-                  ),
-                  bottomNavigationBar: BottomNavigationBar(
-                    items: const <BottomNavigationBarItem>[
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.home),
-                        label: 'Home',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.search),
-                        label: 'Search',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.person),
-                        label: 'User',
-                      ),
-                    ],
-                    currentIndex: _selectedIndex,
-                    selectedItemColor: white,
-                    unselectedItemColor: unselectedItem,
-                    backgroundColor: bottomNavigation,
-                    onTap: _onItemTapped,
+              ? WillPopScope(
+                  onWillPop: () async {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: Text("Do you really want to exit app?"),
+                              actions: [
+                                FlatButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, false),
+                                    child: Text("No")),
+                                FlatButton(
+                                    onPressed: () =>
+                                        SystemNavigator.pop(),
+                                    child: Text("Yes"))
+                              ],
+                            ));
+
+                    return false;
+                  },
+                  child: Scaffold(
+                    body: Center(
+                      child: getPage(_selectedIndex),
+                    ),
+                    bottomNavigationBar: BottomNavigationBar(
+                      items: const <BottomNavigationBarItem>[
+                        BottomNavigationBarItem(
+                          icon: Icon(Icons.home),
+                          label: 'Home',
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Icon(Icons.search),
+                          label: 'Search',
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Icon(Icons.person),
+                          label: 'User',
+                        ),
+                      ],
+                      currentIndex: _selectedIndex,
+                      selectedItemColor: white,
+                      unselectedItemColor: unselectedItem,
+                      backgroundColor: bottomNavigation,
+                      onTap: _onItemTapped,
+                    ),
                   ),
                 )
               : NoInternetConnection();
