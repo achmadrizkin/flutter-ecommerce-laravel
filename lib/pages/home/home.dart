@@ -5,14 +5,11 @@ import 'package:flutter_ecommerce_laravel/pages/home/widget/add_product.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/all_products.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/flashdisk_product.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/product_brand.dart';
-import 'package:flutter_ecommerce_laravel/service/login_controller.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
 
 class Home extends StatefulWidget {
-  Home({Key? key, required this.model}) : super(key: key);
-
-  final LoginController model;
+  Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -26,13 +23,17 @@ class _HomeState extends State<Home> {
       backgroundColor: black,
       appBar: AppBar(
         backgroundColor: black,
-        title: Text("E-Commerce Shop", style: headingStyle,),
+        title: Text(
+          "E-Commerce Shop",
+          style: headingStyle,
+        ),
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CartProducts(model: widget.model,)),
+                  MaterialPageRoute(builder: (context) => CartProducts()),
                 );
               },
               icon: Icon(Icons.shopping_cart))
@@ -42,7 +43,7 @@ class _HomeState extends State<Home> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddProduct(model: widget.model,)),
+            MaterialPageRoute(builder: (context) => AddProduct()),
           );
         },
         child: Icon(Icons.add),
@@ -60,14 +61,14 @@ class _HomeState extends State<Home> {
                   style: headingStyle.copyWith(fontSize: 18),
                 ),
                 AllProducts(),
-        
+
                 //
                 AutoSizeText(
                   "Flashdisk Product",
                   style: headingStyle.copyWith(fontSize: 18),
                 ),
                 GetProductByName(),
-        
+
                 //
                 AutoSizeText(
                   "Onikuma Brand",
