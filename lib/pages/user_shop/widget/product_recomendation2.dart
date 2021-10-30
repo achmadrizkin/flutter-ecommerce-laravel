@@ -116,7 +116,7 @@ class _ProductRecomendation2State extends State<ProductRecomendation2> {
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
                             width: 120,
@@ -133,15 +133,26 @@ class _ProductRecomendation2State extends State<ProductRecomendation2> {
                           SizedBox(
                             height: 10,
                           ),
-                          AutoSizeText(data.name,
-                              style: headingStyle2.copyWith(
-                                  color: Colors.white,
-                                  overflow: TextOverflow.ellipsis)),
-                          AutoSizeText("\$ ${data.price}",
-                              style: subTitleTextStyle.copyWith(
-                                  color: Colors.grey,
-                                  fontSize: 5,
-                                  overflow: TextOverflow.ellipsis)),
+
+                          //
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 10.0, right: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AutoSizeText(data.name,
+                                    style: headingStyle2.copyWith(
+                                        color: Colors.white,
+                                        overflow: TextOverflow.ellipsis)),
+                                AutoSizeText("\$ ${data.price}",
+                                    style: subTitleTextStyle.copyWith(
+                                        color: Colors.grey,
+                                        fontSize: 5,
+                                        overflow: TextOverflow.ellipsis)),
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     ),

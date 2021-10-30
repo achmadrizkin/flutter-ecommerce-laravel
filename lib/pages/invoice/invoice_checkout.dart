@@ -2,6 +2,7 @@ import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/model/products_model.dart';
 import 'package:flutter_ecommerce_laravel/pages/invoice/invoice_details/invoice_success_details.dart';
+import 'package:flutter_ecommerce_laravel/service/api_services.dart';
 import 'package:flutter_ecommerce_laravel/service/login_controller.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/env.dart';
@@ -71,18 +72,40 @@ class _CheckOutState extends State<CheckOut> {
     print("Pament success");
 
     //
-    Fluttertoast.showToast(
-            msg: "Payment Success",
-            backgroundColor: white,
-            textColor: black,
-            toastLength: Toast.LENGTH_SHORT)
-        .then((value) => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => InvoiceDetailsSuccess(
-                        paymentID: response.paymentId!,
-                      )),
-            ));
+    ApiServices()
+        .saveInvoice(
+            widget.data.name,
+            Provider.of<LoginController>(context, listen: false)
+                .userDetails!
+                .displayName!,
+            Provider.of<LoginController>(context, listen: false)
+                .userDetails!
+                .email!,
+            widget.data.description,
+            widget.data.imageUrl,
+            totalPriceAndTaxAndDelivery.toString(),
+            widget.data.userName,
+            widget.data.userEmail,
+            _dropDownValue!,
+            totalProduct.toString())
+        .then((value) {
+      Fluttertoast.showToast(
+          msg: "Payment Success",
+          backgroundColor: white,
+          textColor: black,
+          toastLength: Toast.LENGTH_SHORT);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => InvoiceDetailsSuccess(
+            paymentID: response.paymentId!,
+          ),
+        ),
+      );
+    });
+
+    //
   }
 
   void handlerErrorFailure(PaymentFailureResponse respons) {
@@ -351,35 +374,16 @@ class _CheckOutState extends State<CheckOut> {
                   ? SizedBox()
                   : Align(
                       alignment: Alignment.bottomCenter,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 2 - 20,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: AutoSizeText("Back",
-                                  style: headingStyle2.copyWith(color: black)),
-                              style: ElevatedButton.styleFrom(primary: white),
-                            ),
-                          ),
-
-                          //
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 2 - 20,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                openCheckout();
-                              },
-                              child: AutoSizeText("Buy using Razorpay",
-                                  style: headingStyle2.copyWith(color: black)),
-                              style: ElevatedButton.styleFrom(primary: white),
-                            ),
-                          ),
-                        ],
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width - 20,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            openCheckout();
+                          },
+                          child: AutoSizeText("Pay using Razorpay",
+                              style: headingStyle2.copyWith(color: black)),
+                          style: ElevatedButton.styleFrom(primary: white),
+                        ),
                       ),
                     ),
             ],

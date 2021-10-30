@@ -24,9 +24,7 @@ class _LoginPageState extends State<LoginPage> {
           builder: (context, models, child) {
             // if we already logged in
             if (models.userDetails != null) {
-              return BottomNav(
-                model: models,
-              );
+              return BottomNav();
             } else {
               return loginController(context);
             }

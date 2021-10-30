@@ -1,10 +1,15 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_laravel/model/products_model.dart';
+import 'package:flutter_ecommerce_laravel/pages/chat/chat_page.dart';
 import 'package:flutter_ecommerce_laravel/pages/invoice/invoice_checkout.dart';
 import 'package:flutter_ecommerce_laravel/pages/user_shop/user_shop.dart';
+import 'package:flutter_ecommerce_laravel/service/api_services.dart';
+import 'package:flutter_ecommerce_laravel/service/login_controller.dart';
 import 'package:flutter_ecommerce_laravel/utils/color.dart';
 import 'package:flutter_ecommerce_laravel/utils/text_style.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetails extends StatelessWidget {
   const ProductDetails({Key? key, required this.data}) : super(key: key);
@@ -24,12 +29,6 @@ class ProductDetails extends StatelessWidget {
         ),
         centerTitle: true,
         title: Text(data.name, style: headingStyle),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.favorite_border_sharp),
-            onPressed: () {},
-          )
-        ],
       ),
       body: SafeArea(
         child: Column(
@@ -132,7 +131,27 @@ class ProductDetails extends StatelessWidget {
                 SizedBox(
                     width: MediaQuery.of(context).size.width / 4 - 10,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (data.userEmail.contains(
+                            Provider.of<LoginController>(context, listen: false)
+                                .userDetails!
+                                .email!)) {
+                          Fluttertoast.showToast(
+                              msg: "You cannot chat your own",
+                              backgroundColor: white,
+                              textColor: black,
+                              toastLength: Toast.LENGTH_SHORT);
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChatPage(
+                                      emailTo: data.userEmail,
+                                      nameTo: data.userName,
+                                    )),
+                          );
+                        }
+                      },
                       child: Icon(Icons.chat),
                       style: ElevatedButton.styleFrom(
                         primary: green, // background
@@ -144,7 +163,42 @@ class ProductDetails extends StatelessWidget {
                 SizedBox(
                     width: MediaQuery.of(context).size.width / 4 - 10,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (data.userEmail.contains(
+                            Provider.of<LoginController>(context, listen: false)
+                                .userDetails!
+                                .email!)) {
+                          Fluttertoast.showToast(
+                              msg: "You cannot buy your own product",
+                              backgroundColor: white,
+                              textColor: black,
+                              toastLength: Toast.LENGTH_SHORT);
+                        } else {
+                          ApiServices()
+                              .saveCart(
+                                  data.name,
+                                  Provider.of<LoginController>(context,
+                                          listen: false)
+                                      .userDetails!
+                                      .displayName!,
+                                  Provider.of<LoginController>(context,
+                                          listen: false)
+                                      .userDetails!
+                                      .email!,
+                                  data.description,
+                                  data.imageUrl,
+                                  data.price,
+                                  data.userName,
+                                  data.userEmail)
+                              .then((value) {
+                            Fluttertoast.showToast(
+                                msg: "Add Cart Success",
+                                backgroundColor: white,
+                                textColor: black,
+                                toastLength: Toast.LENGTH_SHORT);
+                          });
+                        }
+                      },
                       child: Icon(Icons.shopping_cart),
                       style: ElevatedButton.styleFrom(
                         primary: green, // background
@@ -157,11 +211,24 @@ class ProductDetails extends StatelessWidget {
                     width: MediaQuery.of(context).size.width / 2 - 10,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CheckOut(data: data,)),
-                        );
+                        if (data.userEmail.contains(
+                            Provider.of<LoginController>(context, listen: false)
+                                .userDetails!
+                                .email!)) {
+                          Fluttertoast.showToast(
+                              msg: "You cannot buy your own product",
+                              backgroundColor: white,
+                              textColor: black,
+                              toastLength: Toast.LENGTH_SHORT);
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CheckOut(
+                                      data: data,
+                                    )),
+                          );
+                        }
                       },
                       child: Text(
                         "Buy Right Now",

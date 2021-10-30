@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_ecommerce_laravel/model/get_cart_model.dart';
+import 'package:flutter_ecommerce_laravel/model/get_invoice.dart';
 import 'package:flutter_ecommerce_laravel/model/get_products.dart';
 import 'package:flutter_ecommerce_laravel/model/products_model.dart';
-import 'package:flutter_ecommerce_laravel/service/login_controller.dart';
 import 'package:http/http.dart' as http;
 
 class ApiServices {
@@ -19,18 +19,74 @@ class ApiServices {
     }
   }
 
-  Future saveProduct(
-      String name, LoginController model, String description, String imageURL, String price) async {
+  Future saveProduct(String name, String userName, String userEmail,
+      String description, String imageURL, String price) async {
     final response = await http.post(
         Uri.parse(
             'https://achmadrizkin.my.id/flutter-store-app/public/api/products'),
         body: {
           "name": name,
-          "userName": model.userDetails!.displayName,
-          "userEmail": model.userDetails!.email,
+          "userName": userName,
+          "userEmail": userEmail,
           "description": description,
           "price": price,
           "image_url": imageURL,
+        });
+
+    return jsonDecode(response.body);
+  }
+
+  Future saveInvoice(
+      String name,
+      String userName,
+      String userEmail,
+      String description,
+      String imageURL,
+      String price,
+      String nameShop,
+      String emailShop,
+      String deliveryDetails,
+      String totalBuy) async {
+    final response = await http.post(
+        Uri.parse(
+            'https://achmadrizkin.my.id/flutter-store-app/public/api/invoice'),
+        body: {
+          "name": name,
+          "userName": userName,
+          "userEmail": userEmail,
+          "description": description,
+          "price": price,
+          "image_url": imageURL,
+          "nameShop": nameShop,
+          "emailShop": emailShop,
+          "deliveryDetails": deliveryDetails,
+          "totalBuy": totalBuy,
+        });
+
+    return jsonDecode(response.body);
+  }
+
+  Future saveCart(
+      String name,
+      String userName,
+      String userEmail,
+      String description,
+      String imageURL,
+      String price,
+      String nameShop,
+      String emailShop) async {
+    final response = await http.post(
+        Uri.parse(
+            'https://achmadrizkin.my.id/flutter-store-app/public/api/cart'),
+        body: {
+          "name": name,
+          "userName": userName,
+          "userEmail": userEmail,
+          "description": description,
+          "price": price,
+          "image_url": imageURL,
+          "nameShop": nameShop,
+          "emailShop": emailShop,
         });
 
     return jsonDecode(response.body);
@@ -54,15 +110,23 @@ class ApiServices {
 
   Future deleteProduct(int id) async {
     final response = await http.delete(Uri.parse(
-        'https://achmadrizkin.my.id/flutter-store-app/public/api/products/' +
+        'https://achmadrizkin.my.id/flutter-store-app/public/api/invoice/' +
             id.toString()));
 
     return jsonDecode(response.body);
   }
 
- Future<List<GetCart>> getCartByUser(String query) async {
-    final response = await http
-        .get(Uri.parse('https://achmadrizkin.my.id/flutter-store-app/php/select_cart.php'));
+  Future deleteProductInvoice(int id) async {
+    final response = await http.delete(Uri.parse(
+        'https://achmadrizkin.my.id/flutter-store-app/public/api/invoice/' +
+            id.toString()));
+
+    return jsonDecode(response.body);
+  }
+
+  Future<List<GetCart>> getCartByUser(String query) async {
+    final response = await http.get(Uri.parse(
+        'https://achmadrizkin.my.id/flutter-store-app/php/select_cart.php'));
 
     if (response.statusCode == 200) {
       final List favorite = json.decode(response.body);
@@ -78,12 +142,14 @@ class ApiServices {
   }
 
   Future<List<GetProduct>> getByProduct(String query) async {
-    final response = await http
-        .get(Uri.parse('https://achmadrizkin.my.id/flutter-store-app/php/select_products.php'));
+    final response = await http.get(Uri.parse(
+        'https://achmadrizkin.my.id/flutter-store-app/php/select_products.php'));
 
     if (response.statusCode == 200) {
       final List favorite = json.decode(response.body);
-      return favorite.map((json) => GetProduct.fromJson(json)).where((favorite) {
+      return favorite
+          .map((json) => GetProduct.fromJson(json))
+          .where((favorite) {
         final favoriteLower = favorite.name.toLowerCase();
         final searchLower = query.toLowerCase();
 
@@ -95,8 +161,8 @@ class ApiServices {
   }
 
   Future<List<GetCart>> getCartByUserProducts(String query) async {
-    final response = await http
-        .get(Uri.parse('https://achmadrizkin.my.id/flutter-store-app/php/select_products.php'));
+    final response = await http.get(Uri.parse(
+        'https://achmadrizkin.my.id/flutter-store-app/php/select_products.php'));
 
     if (response.statusCode == 200) {
       final List favorite = json.decode(response.body);
@@ -112,19 +178,99 @@ class ApiServices {
   }
 
   Future<List<GetProduct>> searchProduct(String query) async {
-    final response = await http
-        .get(Uri.parse('https://achmadrizkin.my.id/flutter-store-app/php/select_products.php'));
+    final response = await http.get(Uri.parse(
+        'https://achmadrizkin.my.id/flutter-store-app/php/select_products.php'));
 
     if (response.statusCode == 200) {
       final List favorite = json.decode(response.body);
-      return favorite.map((json) => GetProduct.fromJson(json)).where((favorite) {
+      return favorite
+          .map((json) => GetProduct.fromJson(json))
+          .where((favorite) {
         final favoriteLower = favorite.name.toLowerCase();
+        final shopLower = favorite.userName.toLowerCase();
         final searchLower = query.toLowerCase();
 
-        return favoriteLower.contains(searchLower);
+        return favoriteLower.contains(searchLower) ||
+            shopLower.contains(searchLower);
       }).toList();
     } else {
       throw Exception();
     }
   }
+
+  Future<List<GetInvoice>> selectInvoice(String query) async {
+    final response = await http.get(Uri.parse(
+        'https://achmadrizkin.my.id/flutter-store-app/php/select_invoice.php'));
+
+    if (response.statusCode == 200) {
+      final List favorite = json.decode(response.body);
+      return favorite
+          .map((json) => GetInvoice.fromJson(json))
+          .where((favorite) {
+        final favoriteLower = favorite.name.toLowerCase();
+        final shopLower = favorite.userName.toLowerCase();
+        final searchLower = query.toLowerCase();
+
+        return favoriteLower.contains(searchLower) ||
+            shopLower.contains(searchLower);
+      }).toList();
+    } else {
+      throw Exception();
+    }
+  }
+
+  Future<List<GetProduct>> getUserProduct(String query) async {
+    final response = await http.get(Uri.parse(
+        "https://achmadrizkin.my.id/flutter-store-app/php/select_products.php"));
+
+    if (response.statusCode == 200) {
+      final List favorite = json.decode(response.body);
+      return favorite
+          .map((json) => GetProduct.fromJson(json))
+          .where((favorite) {
+        final shopLower = favorite.userEmail.toLowerCase();
+        final searchLower = query.toLowerCase();
+
+        return shopLower.contains(searchLower);
+      }).toList();
+    } else {
+      throw Exception();
+    }
+  }
+
+  Future<List<GetInvoice>> getInvoiceByUser(String query) async {
+    final response = await http.get(Uri.parse(
+        "https://achmadrizkin.my.id/flutter-store-app/php/select_invoice.php"));
+
+    if (response.statusCode == 200) {
+      final List favorite = json.decode(response.body);
+      return favorite
+          .map((json) => GetInvoice.fromJson(json))
+          .where((favorite) {
+        final shopLower = favorite.userEmail.toLowerCase();
+        final searchLower = query.toLowerCase();
+
+        return shopLower.contains(searchLower);
+      }).toList();
+    } else {
+      throw Exception();
+    }
+  }
+
+  // Future saveCart(
+  //     String name, String userName, String userEmail, String description, String imageURL, String price) async {
+  //   final response = await http.post(
+  //       Uri.parse(
+  //           'https://achmadrizkin.my.id/flutter-store-app/public/api/cart'),
+  //       body: {
+  //         "name": name,
+  //         "userName": userName,
+  //         "userEmail": userEmail,
+  //         "description": description,
+  //         "price": price,
+  //         "image_url": imageURL,
+  //       });
+
+  //   return jsonDecode(response.body);
+  // }
 }

@@ -20,3 +20,6 @@ ApiServices().deleteProduct(data.id);
 
 ## Update Data
 Navigator.push(context,MaterialPageRoute(builder: (context) => EditProduct( data: data,)),);
+
+## Cart API
+https://achmadrizkin.my.id/flutter-store-app/public/api/cart

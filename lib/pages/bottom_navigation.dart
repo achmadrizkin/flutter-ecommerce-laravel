@@ -31,13 +31,10 @@ class _BottomNavState extends State<BottomNav> {
     switch (index) {
       case 0:
         return Home();
-        break;
       case 1:
         return Search();
-        break;
       default:
         return User();
-        break;
     }
   }
 
@@ -65,8 +62,7 @@ class _BottomNavState extends State<BottomNav> {
                                         Navigator.pop(context, false),
                                     child: Text("No")),
                                 FlatButton(
-                                    onPressed: () =>
-                                        SystemNavigator.pop(),
+                                    onPressed: () => SystemNavigator.pop(),
                                     child: Text("Yes"))
                               ],
                             ));

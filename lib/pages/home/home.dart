@@ -1,7 +1,5 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ecommerce_laravel/pages/cart/cart_product.dart';
-import 'package:flutter_ecommerce_laravel/pages/home/widget/add_product.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/all_products.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/flashdisk_product.dart';
 import 'package:flutter_ecommerce_laravel/pages/home/widget/product_brand.dart';
@@ -28,25 +26,6 @@ class _HomeState extends State<Home> {
           style: headingStyle,
         ),
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CartProducts()),
-                );
-              },
-              icon: Icon(Icons.shopping_cart))
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddProduct()),
-          );
-        },
-        child: Icon(Icons.add),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
